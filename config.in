@@ -1,0 +1,88 @@
+
+# THIS FILE WAS GENERATED.  MANUAL CHANGES MAY BE LOST.
+
+CONFIG_OPTS=""
+CONFIG=/usr/src/dialogic/redistributable-runtime/LiS/LiS-2.19/config.in
+SRCDIR=/usr/src/dialogic/redistributable-runtime/LiS/LiS-2.19
+GENCONF=/usr/src/dialogic/redistributable-runtime/LiS/LiS-2.19/include/sys/LiS/genconf.h
+CONFIG_STREAMS=m
+TARGET=l
+CROSS_COMPILING=y
+KSRC=/usr/src/kernels/3.10.0-862.3.3.el7.x86_64
+KBIN=/usr/src/kernels/3.10.0-862.3.3.el7.x86_64
+KINCL=/usr/src/kernels/3.10.0-862.3.3.el7.x86_64/include
+KINCL_GENERATED=/usr/src/kernels/3.10.0-862.3.3.el7.x86_64/include
+NOKSRC=0
+USE_RUNNING_KERNEL=y
+NKVER=3.10.0
+KVER=3.10.0-862.3.3.el7.x86_64
+KVER_MAJOR=3
+KVER_MINOR=10
+KVER_PATCH=0-862
+KVER_PATCHNO=0
+KVER_MAJORMINOR=3.10
+KVER_H=3.10.0-862.3.3.el7.x86_64
+NKVER_H=3.10.0
+KSMP=y
+KMODULES=y
+KMODVERS=y
+LISMODVERS=y
+# LISAUTOCONF is not set
+IPV6=y
+# IPV6_MODULE is not set
+CONFIG_MK_KERNEL=n
+STRMS_QUEUES=t
+MOD_INST_DIR=/lib/modules/3.10.0-862.3.3.el7.x86_64/misc
+MOD_INSTALL=y
+# RH_71_KLUDGE is not set
+SIGMASKLOCK=n
+RCVOID=y
+MACHINE=x86_64
+CC_NAME=gcc
+CC_VERS=4.8.5
+CC_OPTIMIZE=-O2
+CC_OPT2=
+KINCL_X86_GENERIC=/usr/src/kernels/3.10.0-862.3.3.el7.x86_64/arch/x86/include
+# KINCL_MACH_GENERIC is not set
+# KINCL_MACH_DEFAULT is not set
+GET_EMPTY_INODE="new_inode((LIS_SB))"
+KINCL_AUTOCONF=/usr/src/kernels/3.10.0-862.3.3.el7.x86_64/include/linux/kconfig.h
+SET_CPUS_ALLOWED=y
+INT_PSW=n
+# CONFIG_DEV is not set
+USE_KMEM_CACHE=y
+USE_KMEM_TIMER=y
+LIS_MAJOR_BASE=231
+# CONFIG_INET is not set
+# PKGCOMPILE is not set
+# PKGMODULES is not set
+SILENT_BUILD=y
+KBUILD=y
+# KBUILD_NEEDS_MODNAME is not set
+KBUILD_NEEDS_SYMVERS=y
+KBUILD_STR=-D"KBUILD_STR(s)=\#s"
+# MODUTILS is not set
+MODULE_INIT_TOOLS=y
+KSYMVERS=/usr/src/kernels/3.10.0-862.3.3.el7.x86_64/Module.symvers
+CCREGPARM=  
+STREAMS_REGPARM=0
+LIS_OLD_CONSTS=n
+SOLARIS_STYLE_CMN_ERR=n
+DBG_OPT=n
+LIS_SHLIB=y
+package=LiS
+prefix=/usr
+execprefix=/usr
+includedir=/usr/include
+libdir=/usr/lib
+bindir=/usr/bin
+sbindir=/usr/sbin
+sysconfdir=/etc
+datadir=/usr/share
+pkgincludedir=/usr/include/LiS
+pkglibdir=/usr/lib/LiS
+pkgdatadir=/usr/share/LiS
+pkgsrcdir=/usr/src/LiS
+mandir=/usr/share/man
+modsubdir=misc
+MAKE_DIRS="pkg/proto pkg include libc32over64/linux scripts head/linux head/user modules libc/linux libc/user man util/linux util/sco util/qnx util/user . drivers/str/linux drivers/str/user"

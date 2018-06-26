@@ -1,0 +1,1 @@
+drivers/str/linux/streams-pipemod.o drivers/str/linux/streams-timod.o drivers/str/linux/streams-tirdwr.o drivers/str/linux/streams-ldl.o drivers/str/linux/streams-ip_to_dlpi.o drivers/str/linux/streams-mtdrv.o drivers/str/linux/streams-relay3.o

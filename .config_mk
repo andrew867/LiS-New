@@ -1,0 +1,4 @@
+include /usr/src/dialogic/redistributable-runtime/LiS/LiS-2.19/config.in
+include /usr/src/dialogic/redistributable-runtime/LiS/LiS-2.19/config.mk
+include /usr/src/dialogic/redistributable-runtime/LiS/LiS-2.19/quiet.mk
+include /usr/src/dialogic/redistributable-runtime/LiS/LiS-2.19/version

@@ -1,0 +1,131 @@
+Makefile26_ident="@(#) LiS modules/Makefile26 1.5 09/10/04"
+#
+# This is the makefile to make 2.6 style modules.  It uses a kernel
+# makefile Makefile.modpost which we have borrowed from a 2.6.8.1
+# kernel source.  Previous versions of this file were seriously flawed.
+#
+# Also in this directory is a file named ".config" which does NOT contain
+# any configuration information.  It is included by Makefile.modpost
+# and contains some variable setups from the kernel's main Makefile.
+# This things are necessary for Makefile.modpost to execute correctly.
+#
+# By the way, Makefile.modpost is literally copied from the kernel source.
+# There has been no editing done on it, so it would be really easy to
+# upgrade it if necessary.
+#
+# When this makefile is invoked the main Makefile has copied all the ".o"
+# files into the "./marshall" subdirectory.  These are the files that
+# will be turned into ".ko" files by the kernel's Makefile.modpost.
+#
+# Makefile.modpost has a comment at the beginning of it that explains
+# the process of preparing modules in 2.6.
+#
+
+
+#
+# Some variables of use to us and Makefile.modpost
+# The marshall subdirectory is necessary because modpost needs to
+# have list of file names with '/' in them (or it SEGVs).
+#
+srctree := $(KSRC)
+bintree := $(KBIN)
+objtree := $(shell pwd)/$(SD)
+MODVERDIR := $(shell pwd)/$(SD)
+export MODVERDIR KSRC srctree objtree bintree
+
+SEMI := ;
+
+#
+# This makefile entered from the master Makefile.  Targets:
+#
+# <none>	Default, make modules.  
+# clean		Clean up everything.
+#
+
+#
+# If we are doing a clean then there is no point in copying a bunch
+# of files just to remove them.
+#
+ifneq ($(findstring clean,$(MAKECMDGOALS)),clean)
+$(shell mkdir -p scripts/mod scripts/basic)
+$(shell cp $(KSRC)/scripts/gcc-version.sh $(MODVERDIR)/scripts)
+$(shell chmod a+x $(MODVERDIR)/scripts/gcc-version.sh)
+$(shell if [ -f $(KBIN)/scripts/basic/fixdep ] $(SEMI) then cp -f $(KBIN)/scripts/basic/fixdep scripts/basic $(SEMI) fi)
+$(shell if [ -f $(KSRC)/scripts/basic/fixdep ] $(SEMI) then cp -f $(KSRC)/scripts/basic/fixdep scripts/basic $(SEMI) fi)
+$(shell chmod a+x $(MODVERDIR)/scripts/gcc-version.sh)
+$(shell cp $(KSRC)/scripts/Makefile.lib scripts)
+$(shell cp $(KSRC)/scripts/Makefile.build scripts)
+ifneq ($(wildcard $(KSRC)/scripts/Kbuild.include),)
+$(shell cp $(KSRC)/scripts/Kbuild.include scripts)
+endif
+$(shell if [ -f $(KBIN)/scripts/modpost ] $(SEMI) then cp -f $(KBIN)/scripts/modpost scripts/mod $(SEMI) fi)
+$(shell if [ -f $(KBIN)/scripts/mod/modpost ] $(SEMI) then cp -f $(KBIN)/scripts/mod/modpost scripts/mod $(SEMI) fi)
+$(shell if [ -f $(KSRC)/scripts/modpost ] $(SEMI) then cp -f $(KSRC)/scripts/modpost scripts/mod $(SEMI) fi)
+$(shell if [ -f $(KSRC)/scripts/mod/modpost ] $(SEMI) then cp -f $(KSRC)/scripts/mod/modpost scripts/mod $(SEMI) fi)
+main_targets = clean_dot_mods dot_mods
+endif
+
+#
+# The make V=1 convention.  Set up makefile options for nested calls
+# to make.
+#
+ifeq ($(V),1)
+make_opts = -d -p
+make_opts = -d
+make_opts = -p
+make_opts = 
+Q=
+else
+Q=@
+endif
+
+default_goal:	$(main_targets) 
+
+
+#
+# Clean up all the files ending in ".mod" and ".mod.o".
+# The dot_mods target will make them again.
+#
+clean_dot_mods:
+	@echo "Cleaning up previous .mod files"
+	$(Q)-(cd $(MODVERDIR);rm -f *.mod.o *.mod *.c *.ko)
+
+
+#
+# Default rule to make a ".mod" file for each ".o" file in the
+# marshall directory.
+#
+%.mod: %.o
+	$(Q)echo "$(<:.o=.ko)" >$(<:.o=.mod)
+	$(Q)echo "$<" >>$(<:.o=.mod)
+
+#
+# undefine default rule to make a ".o" out of a ".mod"
+#
+%.o: %.mod
+
+#
+# We develop a dependency list that enumerates all ".o"s as ".mod"
+# so that we can get the default rule above to build a series of ".mod"
+# files for us.  Then we can invoke the kernel's makefile to turn
+# this all into a series of ".ko" files.
+#
+DOT_MODS := $(subst .o,.mod,$(wildcard $(MODVERDIR)/*.o))
+DOT_MODS := $(filter-out %.mod.mod,$(DOT_MODS))
+dot_mods: $(DOT_MODS) make_modules
+
+
+clean:
+	$(Q)-rm -rf .tmp_versions $(MODVERDIR) scripts
+
+#
+# Invoke the kernel's procedure on the marshall directory.  This
+# takes all the ".mod" and ".o" files and makes ".ko" files.  The
+# ".ko" files get copied to /lib/modules by the master Makefile.
+#
+make_modules:	
+	$(Q)make -r $(make_opts) -f Makefile.modpost \
+		V=$(V) KBUILD_EXTMOD= SUBDIRS=$(MODVERDIR) \
+		KSRC=$(KSRC)
+
+
